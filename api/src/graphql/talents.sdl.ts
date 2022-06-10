@@ -1,6 +1,9 @@
 export const schema = gql`
   type Talent {
-    id: Int!
+    id: String!
+    appointment: [Appointment]!
+    profilePhoto: String
+    status: String
     firstName: String!
     lastName: String!
     mobile: String!
@@ -14,10 +17,12 @@ export const schema = gql`
 
   type Query {
     talents: [Talent!]! @requireAuth
-    talent(id: Int!): Talent @requireAuth
+    talent(id: String!): Talent @requireAuth
   }
 
   input CreateTalentInput {
+    profilePhoto: String
+    status: String
     firstName: String!
     lastName: String!
     mobile: String!
@@ -28,6 +33,8 @@ export const schema = gql`
   }
 
   input UpdateTalentInput {
+    profilePhoto: String
+    status: String
     firstName: String
     lastName: String
     mobile: String
@@ -39,7 +46,7 @@ export const schema = gql`
 
   type Mutation {
     createTalent(input: CreateTalentInput!): Talent! @requireAuth
-    updateTalent(id: Int!, input: UpdateTalentInput!): Talent! @requireAuth
-    deleteTalent(id: Int!): Talent! @requireAuth
+    updateTalent(id: String!, input: UpdateTalentInput!): Talent! @requireAuth
+    deleteTalent(id: String!): Talent! @requireAuth
   }
 `

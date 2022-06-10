@@ -4,8 +4,9 @@ import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 import Talent from 'src/components/Talent/Talent'
 
 export const QUERY = gql`
-  query FindTalentById($id: Int!) {
+  query FindTalentById($id: String!) {
     talent: talent(id: $id) {
+      profilePhoto
       id
       firstName
       lastName

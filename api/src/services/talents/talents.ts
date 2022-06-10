@@ -1,5 +1,9 @@
 import { db } from 'src/lib/db'
-import type { QueryResolvers, MutationResolvers } from 'types/graphql'
+import type {
+  QueryResolvers,
+  MutationResolvers,
+  TalentResolvers,
+} from 'types/graphql'
 
 export const talents: QueryResolvers['talents'] = () => {
   return db.talent.findMany()
@@ -31,4 +35,9 @@ export const deleteTalent: MutationResolvers['deleteTalent'] = ({ id }) => {
   return db.talent.delete({
     where: { id },
   })
+}
+
+export const Talent: TalentResolvers = {
+  appointment: (_obj, { root }) =>
+    db.talent.findUnique({ where: { id: root.id } }).appointment(),
 }

@@ -8,6 +8,7 @@ import Talents from 'src/components/Talent/Talents'
 export const QUERY = gql`
   query FindTalents {
     talents {
+      profilePhoto
       id
       firstName
       lastName
@@ -28,10 +29,7 @@ export const Empty = () => {
   return (
     <div className="rw-text-center">
       {'No talents yet. '}
-      <Link
-        to={routes.newTalent()}
-        className="rw-link"
-      >
+      <Link to={routes.newTalent()} className="rw-link">
         {'Create one?'}
       </Link>
     </div>

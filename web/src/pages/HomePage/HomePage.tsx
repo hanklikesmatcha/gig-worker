@@ -1,19 +1,16 @@
-import { Link, routes } from '@redwoodjs/router'
+import { useAuth } from '@redwoodjs/auth'
 import { MetaTags } from '@redwoodjs/web'
 
+import AccountPage from 'src/pages/AccountPage/AccountPage'
+import AuthPage from 'src/pages/AuthPage/AuthPage'
+
 const HomePage = () => {
+  const { isAuthenticated } = useAuth()
+
   return (
     <>
-      <MetaTags title="Home" description="Home page" />
-
-      <h1>HomePage</h1>
-      <p>
-        Find me in <code>./web/src/pages/HomePage/HomePage.tsx</code>
-      </p>
-      <p>
-        My default route is named <code>home</code>, link to me with `
-        <Link to={routes.home()}>Home</Link>`
-      </p>
+      <MetaTags title="Welcome" />
+      {!isAuthenticated ? <AuthPage /> : <AccountPage />}
     </>
   )
 }

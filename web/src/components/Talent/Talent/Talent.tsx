@@ -1,125 +1,97 @@
-import humanize from 'humanize-string'
+import { useEffect, useState } from 'react'
+import Button from 'react-bootstrap/Button'
+import Booking from 'src/components/Booking/Booking'
+import { useAuth } from '@redwoodjs/auth'
 
-import { useMutation } from '@redwoodjs/web'
-import { toast } from '@redwoodjs/web/toast'
-import { Link, routes, navigate } from '@redwoodjs/router'
-import {supabase} from 'src/utils/supabaseClient.js'
+const Talent = ({ talent }) => {
+  const [gifUrl, setGifUrl] = useState<string>()
+  const [loading, setLoading] = useState(false)
+  const { client: supabase, isAuthenticated } = useAuth()
 
-const DELETE_TALENT_MUTATION = gql`
-  mutation DeleteTalentMutation($id: Int!) {
-    deleteTalent(id: $id) {
-      id
+  useEffect(() => {
+    const getGifUrl = async () => {
+      const { data, error } = await supabase.storage
+        .from('gig-worker')
+        .download(talent.profilePhoto)
+      const reader = new FileReader()
+      reader.readAsDataURL(data)
+      reader.onloadend = () => {
+        const base64data = reader.result.toString()
+        setGifUrl(base64data)
+      }
     }
-  }
-`
+    getGifUrl()
+  }, [])
 
-const formatEnum = (values: string | string[] | null | undefined) => {
-  if (values) {
-    if (Array.isArray(values)) {
-      const humanizedValues = values.map((value) => humanize(value))
-      return humanizedValues.join(', ')
+  const handleBooking = async (talentId: string) => {
+    if (isAuthenticated) {
+      setModalShow(true)
     } else {
-      return humanize(values as string)
+      try {
+        setLoading(true)
+        const { user, session, error } = await supabase.auth.signIn(
+          {
+            provider: 'google',
+          },
+          {
+            redirectTo: window.location.href,
+          }
+        )
+        if (error) throw error
+      } catch (error) {
+        alert(error.error_description || error.message)
+      } finally {
+        setLoading(false)
+      }
     }
   }
-}
 
-const jsonDisplay = (obj) => {
-  return (
-    <pre>
-      <code>{JSON.stringify(obj, null, 2)}</code>
-    </pre>
-  )
-}
-
-const timeTag = (datetime) => {
-  return (
-    datetime && (
-      <time dateTime={datetime} title={datetime}>
-        {new Date(datetime).toUTCString()}
-      </time>
-    )
-  )
-}
-
-const checkboxInputTag = (checked) => {
-  return <input type="checkbox" checked={checked} disabled />
-}
-
-const Talent = async ({ talent }) => {
-  const { data, error } = await supabase.storage.from('gig-worker').download('1.gif')
-  const [deleteTalent] = useMutation(DELETE_TALENT_MUTATION, {
-    onCompleted: () => {
-      toast.success('Talent deleted')
-      navigate(routes.talents())
-    },
-    onError: (error) => {
-      toast.error(error.message)
-    },
-  })
-
-  const onDeleteClick = (id) => {
-    if (confirm('Are you sure you want to delete talent ' + id + '?')) {
-      deleteTalent({ variables: { id } })
-    }
-  }
+  const [modalShow, setModalShow] = React.useState(false)
   return (
     <>
-      <div className="rw-segment">
-        <header className="rw-segment-header">
-          <h2 className="rw-heading rw-heading-secondary">Talent {talent.id} Detail</h2>
-        </header>
-        <table className="rw-table">
-          <tbody>
-            <tr>
-              <th>Id</th>
-              <td>{talent.id}</td>
-            </tr><tr>
-              <th>First name</th>
-              <td>{talent.firstName}</td>
-            </tr><tr>
-              <th>Last name</th>
-              <td>{talent.lastName}</td>
-            </tr><tr>
-              <th>Mobile</th>
-              <td>{talent.mobile}</td>
-            </tr><tr>
-              <th>Email</th>
-              <td>{talent.email}</td>
-            </tr><tr>
-              <th>Intro</th>
-              <td>{talent.intro}</td>
-            </tr><tr>
-              <th>Location</th>
-              <td>{talent.location}</td>
-            </tr><tr>
-              <th>Created at</th>
-              <td>{timeTag(talent.createdAt)}</td>
-            </tr><tr>
-              <th>Updated at</th>
-              <td>{timeTag(talent.updatedAt)}</td>
-            </tr><tr>
-              <th>Deactivated at</th>
-              <td>{timeTag(talent.deactivatedAt)}</td>
-            </tr>
-          </tbody>
-        </table>
+      <div className="bg-transparent flex-block items-center justify-center">
+        <div>
+          <div>
+            <Booking
+              className="absolute inset-10 bg-red-200 bg-opacity-50"
+              show={modalShow}
+              fullscreen={true}
+              onHide={() => setModalShow(false)}
+              talent={talent}
+            />
+          </div>
+          <figure className="relative">
+            <img
+              className="h-screen w-full object-cover object-center"
+              src={gifUrl}
+            ></img>
+            <figcaption className="absolute text-lg text-center text-white top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-4 align-middle">
+              <div>
+                <h1>
+                  {talent.firstName} {talent.lastName}
+                </h1>
+              </div>
+              <div>
+                <h1>{talent.email}</h1>
+              </div>
+              <div>
+                <h1>{talent.mobile}</h1>
+              </div>
+              <div>
+                <h1>{talent.intro}</h1>
+              </div>
+              <div className="flex justify-center">
+                <Button
+                  onClick={() => handleBooking(talent.id)}
+                  className="rw-button text-dark bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-2 my-4"
+                >
+                  {loading ? <span>Loading</span> : <span>Book Me ▶️</span>}
+                </Button>
+              </div>
+            </figcaption>
+          </figure>
+        </div>
       </div>
-      <nav className="rw-button-group">
-        <Link
-          to={routes.editTalent({ id: talent.id })}
-          className="rw-button rw-button-blue"
-        >
-          Edit
-        </Link>
-        <button
-          type="button"
-          className="rw-button rw-button-red"
-          onClick={() => onDeleteClick(talent.id)}
-        >
-          Delete
-        </button>
-      </nav>
     </>
   )
 }
