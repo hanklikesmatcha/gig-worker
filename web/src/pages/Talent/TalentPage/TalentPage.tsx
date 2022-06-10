@@ -1,7 +1,7 @@
 import TalentCell from 'src/components/Talent/TalentCell'
 
 type TalentPageProps = {
-  id: number
+  id: string
 }
 
 const TalentPage = ({ id }: TalentPageProps) => {

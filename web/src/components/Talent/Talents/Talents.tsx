@@ -7,7 +7,7 @@ import { Link, routes } from '@redwoodjs/router'
 import { QUERY } from 'src/components/Talent/TalentsCell'
 
 const DELETE_TALENT_MUTATION = gql`
-  mutation DeleteTalentMutation($id: Int!) {
+  mutation DeleteTalentMutation($id: String!) {
     deleteTalent(id: $id) {
       id
     }
@@ -80,6 +80,7 @@ const TalentsList = ({ talents }) => {
         <thead>
           <tr>
             <th>Id</th>
+            <th>Profile photo link</th>
             <th>First name</th>
             <th>Last name</th>
             <th>Mobile</th>
@@ -88,7 +89,6 @@ const TalentsList = ({ talents }) => {
             <th>Location</th>
             <th>Created at</th>
             <th>Updated at</th>
-            <th>Deactivated at</th>
             <th>&nbsp;</th>
           </tr>
         </thead>
@@ -96,6 +96,7 @@ const TalentsList = ({ talents }) => {
           {talents.map((talent) => (
             <tr key={talent.id}>
               <td>{truncate(talent.id)}</td>
+              <td>{talent.profilePhoto}</td>
               <td>{truncate(talent.firstName)}</td>
               <td>{truncate(talent.lastName)}</td>
               <td>{truncate(talent.mobile)}</td>
@@ -104,7 +105,6 @@ const TalentsList = ({ talents }) => {
               <td>{truncate(talent.location)}</td>
               <td>{timeTag(talent.createdAt)}</td>
               <td>{timeTag(talent.updatedAt)}</td>
-              <td>{timeTag(talent.deactivatedAt)}</td>
               <td>
                 <nav className="rw-table-actions">
                   <Link

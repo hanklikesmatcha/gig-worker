@@ -11,7 +11,10 @@ generator client {
 // Define your own datamodels here and run `yarn redwood prisma migrate dev`
 // to create migrations for them and apply to your dev DB.
 model Talent {
-  id        Int      @id @default(autoincrement())
+  id        String      @id @default(uuid())
+  appointment Appointment[]
+  profilePhoto  String?
+  status        String @default("active")
   firstName     String
   lastName      String
   mobile        String
@@ -21,4 +24,27 @@ model Talent {
   createdAt DateTime @default(now())
   updatedAt DateTime?
   deactivatedAt DateTime?
+}
+
+
+model Appointment {
+  id        String      @id @default(uuid())
+  talent    Talent   @relation(fields: [talentId], references: [id])
+  talentId  String
+  location  String
+  status    String   @default("new")
+  time      DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime?
+  emails Email[]
+}
+
+
+model Email {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  appointment    Appointment   @relation(fields: [appointmentId], references: [id])
+  appointmentId  String
+  log       String
 }

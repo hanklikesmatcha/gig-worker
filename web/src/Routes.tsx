@@ -13,12 +13,10 @@ import TalentsLayout from 'src/layouts/TalentsLayout'
 const Routes = () => {
   return (
     <Router>
-      <Set wrap={TalentsLayout}>
-        <Route path="/talents/new" page={TalentNewTalentPage} name="newTalent" />
-        <Route path="/talents/{id:Int}/edit" page={TalentEditTalentPage} name="editTalent" />
-        <Route path="/talents/{id:Int}" page={TalentTalentPage} name="talent" />
-        <Route path="/talents" page={TalentTalentsPage} name="talents" />
-      </Set>
+      <Route path="/talents/new" page={TalentNewTalentPage} name="newTalent" />
+      <Route path="/talents/{id:String}/edit" page={TalentEditTalentPage} name="editTalent" />
+      <Route path="/talents/{id:String}" page={TalentTalentPage} name="talent" />
+      <Route path="/talents" page={TalentTalentsPage} name="talents" />
       <Route path="/" page={HomePage} name="home" />
       <Route notfound page={NotFoundPage} />
     </Router>
