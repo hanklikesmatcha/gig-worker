@@ -4,6 +4,7 @@ import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 import { Link, routes, navigate } from '@redwoodjs/router'
 import {supabase} from 'src/utils/supabaseClient.js'
+import { useEffect, useState } from 'react'
 
 const DELETE_TALENT_MUTATION = gql`
   mutation DeleteTalentMutation($id: Int!) {
@@ -46,8 +47,22 @@ const checkboxInputTag = (checked) => {
   return <input type="checkbox" checked={checked} disabled />
 }
 
-const Talent = async ({ talent }) => {
-  const { data, error } = await supabase.storage.from('gig-worker').download('1.gif')
+const Talent = ({ talent }) => {
+  const [data, setData] = useState<Blob>()
+  const [gifUrl, setGifUrl] = useState<string>()
+  useEffect(() => {
+    const getGifUrl = async() => {
+      const {data, error}  = await supabase.storage.from('gig-worker').download('1.gif')
+      const reader = new FileReader()
+      reader.readAsDataURL(data)
+      reader.onloadend = () => {
+        const base64data = reader.result.toString()
+        setGifUrl(base64data)
+      }
+    }
+    getGifUrl()
+  }, [])
+
   const [deleteTalent] = useMutation(DELETE_TALENT_MUTATION, {
     onCompleted: () => {
       toast.success('Talent deleted')
@@ -63,6 +78,9 @@ const Talent = async ({ talent }) => {
       deleteTalent({ variables: { id } })
     }
   }
+  // const dataUrl = URL.createObjectURL(data)
+  console.log(gifUrl)
+
   return (
     <>
       <div className="rw-segment">
@@ -74,6 +92,10 @@ const Talent = async ({ talent }) => {
             <tr>
               <th>Id</th>
               <td>{talent.id}</td>
+            </tr><tr>
+              <th>Avatar</th>
+              <td><img width='200' src={gifUrl}></img></td>
+            </tr><tr>
             </tr><tr>
               <th>First name</th>
               <td>{talent.firstName}</td>
