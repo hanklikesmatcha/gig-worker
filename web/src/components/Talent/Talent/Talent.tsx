@@ -3,7 +3,7 @@ import humanize from 'humanize-string'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 import { Link, routes, navigate } from '@redwoodjs/router'
-import {supabase} from 'src/utils/supabaseClient.js'
+import { supabase } from 'src/utils/supabaseClient.js'
 import { useEffect, useState } from 'react'
 
 const DELETE_TALENT_MUTATION = gql`
@@ -48,11 +48,12 @@ const checkboxInputTag = (checked) => {
 }
 
 const Talent = ({ talent }) => {
-  const [data, setData] = useState<Blob>()
   const [gifUrl, setGifUrl] = useState<string>()
   useEffect(() => {
-    const getGifUrl = async() => {
-      const {data, error}  = await supabase.storage.from('gig-worker').download('1.gif')
+    const getGifUrl = async () => {
+      const { data, error } = await supabase.storage
+        .from('gig-worker')
+        .download(`${talent.id}.gif`)
       const reader = new FileReader()
       reader.readAsDataURL(data)
       reader.onloadend = () => {
@@ -78,70 +79,44 @@ const Talent = ({ talent }) => {
       deleteTalent({ variables: { id } })
     }
   }
-  // const dataUrl = URL.createObjectURL(data)
-  console.log(gifUrl)
 
   return (
     <>
-      <div className="rw-segment">
-        <header className="rw-segment-header">
-          <h2 className="rw-heading rw-heading-secondary">Talent {talent.id} Detail</h2>
-        </header>
-        <table className="rw-table">
-          <tbody>
-            <tr>
-              <th>Id</th>
-              <td>{talent.id}</td>
-            </tr><tr>
-              <th>Avatar</th>
-              <td><img width='200' src={gifUrl}></img></td>
-            </tr><tr>
-            </tr><tr>
-              <th>First name</th>
-              <td>{talent.firstName}</td>
-            </tr><tr>
-              <th>Last name</th>
-              <td>{talent.lastName}</td>
-            </tr><tr>
-              <th>Mobile</th>
-              <td>{talent.mobile}</td>
-            </tr><tr>
-              <th>Email</th>
-              <td>{talent.email}</td>
-            </tr><tr>
-              <th>Intro</th>
-              <td>{talent.intro}</td>
-            </tr><tr>
-              <th>Location</th>
-              <td>{talent.location}</td>
-            </tr><tr>
-              <th>Created at</th>
-              <td>{timeTag(talent.createdAt)}</td>
-            </tr><tr>
-              <th>Updated at</th>
-              <td>{timeTag(talent.updatedAt)}</td>
-            </tr><tr>
-              <th>Deactivated at</th>
-              <td>{timeTag(talent.deactivatedAt)}</td>
-            </tr>
-          </tbody>
-        </table>
+      <div className="flex-inline items-center justify-center h-screen w-full">
+        <div>
+          <figure className="relative">
+            <img
+              className="h-screen w-full object-cover object-center"
+              src={gifUrl}
+            ></img>
+            <figcaption className="absolute text-lg text-white top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-4">
+              <div>
+                <h1>
+                  {talent.firstName} {talent.lastName}
+                </h1>
+              </div>
+              <div>
+                <h1>{talent.email}</h1>
+              </div>
+              <div>
+                <h1>{talent.mobile}</h1>
+              </div>
+              <div>
+                <h1>{talent.intro}</h1>
+              </div>
+              <div>
+                <Link
+                  type="button"
+                  className="rw-button text-dark bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                  to={routes.editTalent({ id: talent.id })}
+                >
+                  Initiate
+                </Link>
+              </div>
+            </figcaption>
+          </figure>
+        </div>
       </div>
-      <nav className="rw-button-group">
-        <Link
-          to={routes.editTalent({ id: talent.id })}
-          className="rw-button rw-button-blue"
-        >
-          Edit
-        </Link>
-        <button
-          type="button"
-          className="rw-button rw-button-red"
-          onClick={() => onDeleteClick(talent.id)}
-        >
-          Delete
-        </button>
-      </nav>
     </>
   )
 }
