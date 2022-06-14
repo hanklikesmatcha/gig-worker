@@ -1,5 +1,6 @@
 export const schema = gql`
   type Talent {
+    profilePhoto: String
     id: Int!
     firstName: String!
     lastName: String!
@@ -18,6 +19,7 @@ export const schema = gql`
   }
 
   input CreateTalentInput {
+    profilePhoto: String
     firstName: String!
     lastName: String!
     mobile: String!

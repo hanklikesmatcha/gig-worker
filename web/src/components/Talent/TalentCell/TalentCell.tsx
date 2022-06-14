@@ -6,6 +6,7 @@ import Talent from 'src/components/Talent/Talent'
 export const QUERY = gql`
   query FindTalentById($id: Int!) {
     talent: talent(id: $id) {
+      profilePhoto
       id
       firstName
       lastName

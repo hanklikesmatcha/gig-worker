@@ -23,6 +23,7 @@
   },
   "packageManager": "yarn@3.2.1",
   "dependencies": {
-    "@supabase/supabase-js": "^1.35.3"
+    "@supabase/supabase-js": "^1.35.3",
+    "base64-arraybuffer": "^1.0.2"
   }
 }

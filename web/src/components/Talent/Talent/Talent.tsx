@@ -53,7 +53,7 @@ const Talent = ({ talent }) => {
     const getGifUrl = async () => {
       const { data, error } = await supabase.storage
         .from('gig-worker')
-        .download(`${talent.id}.gif`)
+        .download(talent.profilePhoto)
       const reader = new FileReader()
       reader.readAsDataURL(data)
       reader.onloadend = () => {

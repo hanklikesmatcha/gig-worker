@@ -12,18 +12,25 @@ const CREATE_TALENT_MUTATION = gql`
 `
 
 const NewTalent = () => {
-  const [createTalent, { loading, error }] = useMutation(CREATE_TALENT_MUTATION, {
-    onCompleted: () => {
-      toast.success('Talent created')
-      navigate(routes.talents())
-    },
-    onError: (error) => {
-      toast.error(error.message)
-    },
-  })
+  const [createTalent, { loading, error }] = useMutation(
+    CREATE_TALENT_MUTATION,
+    {
+      onCompleted: () => {
+        toast.success('Talent created')
+        navigate(routes.talents())
+      },
+      onError: (error) => {
+        toast.error(error.message)
+      },
+    }
+  )
 
   const onSave = (input) => {
-    createTalent({ variables: { input } })
+    createTalent({
+      variables: {
+        input,
+      },
+    })
   }
 
   return (
