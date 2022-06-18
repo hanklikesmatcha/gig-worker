@@ -51,13 +51,13 @@ const Talent = ({ talent }) => {
         <div>
           <div>
             <Booking
-              className="relative bg-white p-8"
+              className="absolute inset-10 bg-blue-300 bg-opacity-50"
               show={modalShow}
               fullscreen={true}
               onHide={() => setModalShow(false)}
             />
           </div>
-          <figure className="absolute">
+          <figure className="relative">
             <img
               className="h-screen w-full object-cover object-center"
               src={gifUrl}
@@ -78,12 +78,6 @@ const Talent = ({ talent }) => {
                 <h1>{talent.intro}</h1>
               </div>
               <div>
-                {/* <Booking
-                  className="bg-transparent p-8"
-                  show={modalShow}
-                  fullscreen={true}
-                  onHide={() => setModalShow(false)}
-                /> */}
                 <Button
                   onClick={() => setModalShow(true)}
                   className="rw-button text-dark bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"

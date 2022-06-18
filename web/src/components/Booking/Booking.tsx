@@ -1,7 +1,11 @@
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import DatePicker from 'react-datepicker'
+import { useState } from 'react'
 
 const Booking = (props) => {
+  const [startDate, setStartDate] = useState(new Date())
   return (
     <Modal
       {...props}
@@ -12,20 +16,23 @@ const Booking = (props) => {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Modal heading
+          <Button onClick={props.onHide}>Close</Button>
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <h4>Centered Modal</h4>
-        <p>
-          Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-          dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-          consectetur ac, vestibulum at eros.
-        </p>
+        <div>
+          <Form>
+            <DatePicker
+              selected={startDate}
+              onChange={(date) => setStartDate(date)}
+              timeInputLabel="Time:"
+              dateFormat="MM/dd/yyyy h:mm aa"
+              showTimeInput
+            />
+          </Form>
+        </div>
       </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
-      </Modal.Footer>
+      <Modal.Footer></Modal.Footer>
     </Modal>
   )
 }
