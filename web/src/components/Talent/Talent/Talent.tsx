@@ -2,9 +2,11 @@ import humanize from 'humanize-string'
 
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
-import { Link, routes, navigate } from '@redwoodjs/router'
+import { routes, navigate } from '@redwoodjs/router'
 import { supabase } from 'src/utils/supabaseClient.js'
 import { useEffect, useState } from 'react'
+import Button from 'react-bootstrap/Button'
+import Booking from 'src/components/Booking/Booking'
 
 const DELETE_TALENT_MUTATION = gql`
   mutation DeleteTalentMutation($id: Int!) {
@@ -13,39 +15,6 @@ const DELETE_TALENT_MUTATION = gql`
     }
   }
 `
-
-const formatEnum = (values: string | string[] | null | undefined) => {
-  if (values) {
-    if (Array.isArray(values)) {
-      const humanizedValues = values.map((value) => humanize(value))
-      return humanizedValues.join(', ')
-    } else {
-      return humanize(values as string)
-    }
-  }
-}
-
-const jsonDisplay = (obj) => {
-  return (
-    <pre>
-      <code>{JSON.stringify(obj, null, 2)}</code>
-    </pre>
-  )
-}
-
-const timeTag = (datetime) => {
-  return (
-    datetime && (
-      <time dateTime={datetime} title={datetime}>
-        {new Date(datetime).toUTCString()}
-      </time>
-    )
-  )
-}
-
-const checkboxInputTag = (checked) => {
-  return <input type="checkbox" checked={checked} disabled />
-}
 
 const Talent = ({ talent }) => {
   const [gifUrl, setGifUrl] = useState<string>()
@@ -74,17 +43,21 @@ const Talent = ({ talent }) => {
     },
   })
 
-  const onDeleteClick = (id) => {
-    if (confirm('Are you sure you want to delete talent ' + id + '?')) {
-      deleteTalent({ variables: { id } })
-    }
-  }
+  const [modalShow, setModalShow] = React.useState(false)
 
   return (
     <>
-      <div className="flex-inline items-center justify-center h-screen w-full">
+      <div className="flex-block items-center justify-center">
         <div>
-          <figure className="relative">
+          <div>
+            <Booking
+              className="relative bg-white p-8"
+              show={modalShow}
+              fullscreen={true}
+              onHide={() => setModalShow(false)}
+            />
+          </div>
+          <figure className="absolute">
             <img
               className="h-screen w-full object-cover object-center"
               src={gifUrl}
@@ -105,13 +78,18 @@ const Talent = ({ talent }) => {
                 <h1>{talent.intro}</h1>
               </div>
               <div>
-                <Link
-                  type="button"
+                {/* <Booking
+                  className="bg-transparent p-8"
+                  show={modalShow}
+                  fullscreen={true}
+                  onHide={() => setModalShow(false)}
+                /> */}
+                <Button
+                  onClick={() => setModalShow(true)}
                   className="rw-button text-dark bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-                  to={routes.editTalent({ id: talent.id })}
                 >
-                  Initiate
-                </Link>
+                  Book Me
+                </Button>
               </div>
             </figcaption>
           </figure>
