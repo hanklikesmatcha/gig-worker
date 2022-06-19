@@ -1,20 +1,7 @@
-import humanize from 'humanize-string'
-
-import { useMutation } from '@redwoodjs/web'
-import { toast } from '@redwoodjs/web/toast'
-import { routes, navigate } from '@redwoodjs/router'
 import { supabase } from 'src/utils/supabaseClient.js'
 import { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Booking from 'src/components/Booking/Booking'
-
-const DELETE_TALENT_MUTATION = gql`
-  mutation DeleteTalentMutation($id: Int!) {
-    deleteTalent(id: $id) {
-      id
-    }
-  }
-`
 
 const Talent = ({ talent }) => {
   const [gifUrl, setGifUrl] = useState<string>()
@@ -33,18 +20,7 @@ const Talent = ({ talent }) => {
     getGifUrl()
   }, [])
 
-  const [deleteTalent] = useMutation(DELETE_TALENT_MUTATION, {
-    onCompleted: () => {
-      toast.success('Talent deleted')
-      navigate(routes.talents())
-    },
-    onError: (error) => {
-      toast.error(error.message)
-    },
-  })
-
   const [modalShow, setModalShow] = React.useState(false)
-
   return (
     <>
       <div className="flex-block items-center justify-center">
@@ -55,6 +31,7 @@ const Talent = ({ talent }) => {
               show={modalShow}
               fullscreen={true}
               onHide={() => setModalShow(false)}
+              talent={talent.id}
             />
           </div>
           <figure className="relative">

@@ -12,7 +12,9 @@ generator client {
 // to create migrations for them and apply to your dev DB.
 model Talent {
   id        Int      @id @default(autoincrement())
+  appointment Appointment[]
   profilePhoto  String?
+  status        String @default("active")
   firstName     String
   lastName      String
   mobile        String
@@ -22,4 +24,16 @@ model Talent {
   createdAt DateTime @default(now())
   updatedAt DateTime?
   deactivatedAt DateTime?
+}
+
+
+model Appointment {
+  id        Int      @id @default(autoincrement())
+  talent    Talent   @relation(fields: [talentId], references: [id])
+  talentId  Int
+  location  String
+  status    String   @default("new")
+  time      DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime?
 }
