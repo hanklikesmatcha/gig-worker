@@ -24,6 +24,7 @@ model Talent {
   createdAt DateTime @default(now())
   updatedAt DateTime?
   deactivatedAt DateTime?
+  emails Email[]
 }
 
 
@@ -36,4 +37,14 @@ model Appointment {
   time      DateTime
   createdAt DateTime @default(now())
   updatedAt DateTime?
+}
+
+
+model Email {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  talent    Talent   @relation(fields: [talentId], references: [id])
+  talentId  Int
+  log       String
 }

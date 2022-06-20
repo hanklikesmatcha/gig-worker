@@ -1,7 +1,9 @@
 export const schema = gql`
   type Talent {
-    profilePhoto: String
     id: Int!
+    appointment: [Appointment]!
+    profilePhoto: String
+    status: String!
     firstName: String!
     lastName: String!
     mobile: String!
@@ -11,6 +13,7 @@ export const schema = gql`
     createdAt: DateTime!
     updatedAt: DateTime
     deactivatedAt: DateTime
+    emails: [Email]!
   }
 
   type Query {
@@ -20,6 +23,7 @@ export const schema = gql`
 
   input CreateTalentInput {
     profilePhoto: String
+    status: String!
     firstName: String!
     lastName: String!
     mobile: String!
@@ -30,6 +34,8 @@ export const schema = gql`
   }
 
   input UpdateTalentInput {
+    profilePhoto: String
+    status: String
     firstName: String
     lastName: String
     mobile: String
@@ -37,6 +43,9 @@ export const schema = gql`
     intro: String
     location: String
     deactivatedAt: DateTime
+  }
+  type Mutation {
+    emailTalent(id: Int!): Talent! @skipAuth
   }
 
   type Mutation {

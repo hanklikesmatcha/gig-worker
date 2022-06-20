@@ -17,10 +17,26 @@ const CREATE_APPOINTMENT_MUTATION = gql`
   }
 `
 
+const EMAIL_TALENT_MUTATION = gql`
+  mutation EmailTalentMutation($id: Int!) {
+    emailTalent(id: $id) {
+      id
+    }
+  }
+`
+
 const Booking = (props) => {
   const [createAppointment] = useMutation(CREATE_APPOINTMENT_MUTATION, {
     onCompleted: () => {
       toast.success('Appointment made')
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    },
+  })
+  const [emailTalent] = useMutation(EMAIL_TALENT_MUTATION, {
+    onCompleted: () => {
+      toast.success('Email sent')
     },
     onError: (error) => {
       toast.error(error.message)
@@ -44,6 +60,7 @@ const Booking = (props) => {
           },
         },
       })
+      emailTalent({ variables: { id: props.talent } })
     }
   }
   return (
