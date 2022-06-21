@@ -44,9 +44,6 @@ export const schema = gql`
     location: String
     deactivatedAt: DateTime
   }
-  type Mutation {
-    emailTalent(id: Int!): Talent! @skipAuth
-  }
 
   type Mutation {
     createTalent(input: CreateTalentInput!): Talent! @requireAuth

@@ -1,21 +1,31 @@
-import sgMail from '@sendgrid/mail'
+import * as nodemailer from 'nodemailer'
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-const msg = {
-  to: 'hank.likes.matcha@gmail.com',
-  from: 'hank.likes.matcha@gmail.com',
-  subject: 'Sending with SendGrid is Fun',
-  text: 'and easy to do anywhere, even with Node.js',
-  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+interface Options {
+  to: string | string[]
+  subject: string
+  text: string
+  html: string
 }
-export function sendEmail(message) {
-  console.log(process.env.SENDGRID_API_KEY)
-  sgMail
-    .send(message)
-    .then(() => {
-      console.log('Email sent')
-    })
-    .catch((error) => {
-      console.error(error)
-    })
+
+export async function sendEmail({ to, subject, text, html }: Options) {
+  const transporter = nodemailer.createTransport({
+    host: 'smtp-relay.sendinblue.com',
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: 'hank.likes.matcha@gmail.com',
+      pass: process.env.SEND_IN_BLUE_KEY,
+    },
+  })
+
+  // send mail with defined transport object
+  const info = await transporter.sendMail({
+    from: 'Szu Han" hank.likes.matcha@gmail.com',
+    to: Array.isArray(to) ? to : [to], // list of receivers
+    subject, // Subject line
+    text, // plain text body
+    html, // html body
+  })
+
+  return info
 }
