@@ -9,6 +9,9 @@ export const schema = gql`
     createdAt: DateTime!
     updatedAt: DateTime
     emails: [Email]!
+    attendees: [String]!
+    calendarId: String
+    calendarLink: String
   }
 
   type Query {
@@ -21,6 +24,9 @@ export const schema = gql`
     location: String!
     status: String!
     time: DateTime!
+    attendees: [String]!
+    calendarId: String
+    calendarLink: String
   }
 
   input UpdateAppointmentInput {
@@ -28,6 +34,9 @@ export const schema = gql`
     location: String
     status: String
     time: DateTime
+    attendees: [String]!
+    calendarId: String
+    calendarLink: String
   }
 
   type Mutation {

@@ -34,20 +34,23 @@ describe('appointments', () => {
       input: {
         talentId: scenario.appointment.two.talentId,
         location: 'String',
-        time: '2022-06-21T08:51:04Z',
+        status: 'active',
+        time: '2022-06-22T07:09:03Z',
+        attendees: ['String'],
       },
     })
 
     expect(result.talentId).toEqual(scenario.appointment.two.talentId)
     expect(result.location).toEqual('String')
-    expect(result.time).toEqual('2022-06-21T08:51:04Z')
+    expect(result.time).toEqual('2022-06-22T07:09:03Z')
+    expect(result.attendees).toEqual('String')
   })
 
   scenario('updates a appointment', async (scenario: StandardScenario) => {
     const original = await appointment({ id: scenario.appointment.one.id })
     const result = await updateAppointment({
       id: original.id,
-      input: { location: 'String2' },
+      input: { location: 'String2', attendees: ['test attendee'] },
     })
 
     expect(result.location).toEqual('String2')

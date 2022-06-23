@@ -5,7 +5,8 @@ export const standard = defineScenario<Prisma.AppointmentCreateArgs>({
     one: {
       data: {
         location: 'String',
-        time: '2022-06-21T08:51:04Z',
+        time: '2022-06-22T07:09:03Z',
+        attendees: ['String'],
         talent: {
           create: {
             firstName: 'String',
@@ -21,7 +22,8 @@ export const standard = defineScenario<Prisma.AppointmentCreateArgs>({
     two: {
       data: {
         location: 'String',
-        time: '2022-06-21T08:51:04Z',
+        time: '2022-06-22T07:09:03Z',
+        attendees: ['String'],
         talent: {
           create: {
             firstName: 'String',

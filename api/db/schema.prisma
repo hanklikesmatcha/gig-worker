@@ -37,6 +37,9 @@ model Appointment {
   createdAt DateTime @default(now())
   updatedAt DateTime?
   emails Email[]
+  attendees String[]
+  calendarId String?
+  calendarLink String?
 }
 
 
