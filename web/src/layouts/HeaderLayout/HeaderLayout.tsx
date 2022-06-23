@@ -47,7 +47,7 @@ const HeaderLayout = ({ children }: HeaderLayoutProps) => {
                     className="button block hover:bg-green-400"
                     onClick={() => handleLogin()}
                   >
-                    Log In
+                    Sign In
                   </button>
                 )}
               </li>
@@ -56,7 +56,7 @@ const HeaderLayout = ({ children }: HeaderLayoutProps) => {
                   className="button block hover:bg-orange-500"
                   onClick={() => {
                     logOut()
-                    toast('Log out successfully!')
+                    toast('Sign out successfully!')
                   }}
                 >
                   Sign Out

@@ -48,6 +48,7 @@ const Booking = (props) => {
           },
         },
       })
+      toast('Appointment Made! 🎉 ')
     }
   }
   return (
@@ -64,7 +65,6 @@ const Booking = (props) => {
             <DatetimeLocalField
               name="booking-time"
               min={currentTime}
-              step="1800"
               errorClassName="input error"
             />
             <div className="grid grid-col-2 grid-flow-col gap-10">

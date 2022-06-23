@@ -42,7 +42,7 @@ const AuthPage = () => {
             className="button block"
             disabled={loading}
           >
-            {loading ? <span>Loading</span> : <span>Log in with Google</span>}
+            {loading ? <span>Loading</span> : <span>Sign in with Google</span>}
           </button>
         </div>
       </div>
