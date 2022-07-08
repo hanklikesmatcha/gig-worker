@@ -53,7 +53,7 @@ const Talent = ({ talent }) => {
         <div>
           <div>
             <Booking
-              className="absolute inset-10 bg-red-200 bg-opacity-50"
+              className="absolute inset-10 bg-red-200 bg-opacity-50 rounded-xl"
               show={modalShow}
               fullscreen={true}
               onHide={() => setModalShow(false)}

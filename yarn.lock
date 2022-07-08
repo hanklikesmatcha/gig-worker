@@ -6010,6 +6010,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/luxon@npm:^2.3.2":
+  version: 2.3.2
+  resolution: "@types/luxon@npm:2.3.2"
+  checksum: a099fb5b0d3a0c1682756400bed1edd451f2feb221c8eed3e95ef7d344550a1d38d3acbb037f177adcaa8abf93fb00a448e4e751685496b6a8c279592cc48425
+  languageName: node
+  linkType: hard
+
 "@types/mdast@npm:^3.0.0":
   version: 3.0.10
   resolution: "@types/mdast@npm:3.0.10"
@@ -6068,6 +6075,13 @@ __metadata:
   version: 16.11.39
   resolution: "@types/node@npm:16.11.39"
   checksum: 28fe6cb1f048d97c524c980131d7b534e0363c124e289c70acb04a89700b58e0a1cbeeecbf3fa505aaed6a2ee98f4cc1d1025baee55f8f2f530732a9f6a87f0b
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^18.0.3":
+  version: 18.0.3
+  resolution: "@types/node@npm:18.0.3"
+  checksum: 03543d489b0747c1414aa5e3e8ca928d6ca3dfdb17d96811cc9f355da632805ca27520ed8ebfc14fb6a1b317490045fcd2d0dd3362f9b98b7f3d0ca7297ec086
   languageName: node
   linkType: hard
 
@@ -7344,7 +7358,14 @@ __metadata:
   dependencies:
     "@redwoodjs/api": 1.5.1
     "@redwoodjs/graphql-server": 1.5.1
+    "@types/luxon": ^2.3.2
+    "@types/node": ^18.0.3
+    dayjs: ^1.11.3
+    ical-generator: ^3.4.3
+    moment: ^2.29.4
+    moment-timezone: ^0.5.34
     nodemailer: ^6.7.5
+    rrule: ^2.7.0
   languageName: unknown
   linkType: soft
 
@@ -14409,6 +14430,44 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ical-generator@npm:^3.4.3":
+  version: 3.4.3
+  resolution: "ical-generator@npm:3.4.3"
+  dependencies:
+    uuid-random: ^1.3.2
+  peerDependencies:
+    "@touch4it/ical-timezones": ">=1.6.0"
+    "@types/luxon": ">= 1.26.0"
+    "@types/mocha": ">= 8.2.1"
+    "@types/node": ">= 15.0.0"
+    dayjs: ">= 1.10.0"
+    luxon: ">= 1.26.0"
+    moment: ">= 2.29.0"
+    moment-timezone: ">= 0.5.33"
+    rrule: ">= 2.6.8"
+  peerDependenciesMeta:
+    "@touch4it/ical-timezones":
+      optional: true
+    "@types/luxon":
+      optional: true
+    "@types/mocha":
+      optional: true
+    "@types/node":
+      optional: true
+    dayjs:
+      optional: true
+    luxon:
+      optional: true
+    moment:
+      optional: true
+    moment-timezone:
+      optional: true
+    rrule:
+      optional: true
+  checksum: 8025da43f211739613921638e02083462b4e1b14de114362757b3ceca72ee54d704b69133d5db42cbfb55f0150880dfe9973dafa5d692b81d9e518d47a9c5f04
+  languageName: node
+  linkType: hard
+
 "iconv-lite@npm:0.4.24, iconv-lite@npm:^0.4.24":
   version: 0.4.24
   resolution: "iconv-lite@npm:0.4.24"
@@ -17715,6 +17774,22 @@ __metadata:
   version: 1.0.1
   resolution: "module-not-found-error@npm:1.0.1"
   checksum: e57250016b320ef9d0e0037fdb63fb279ca93100a0cee3ef6e90139cbec734215be4a70857dfc0d62ee353d9f8126d2882aa0a80dba49b69292901263a21ea69
+  languageName: node
+  linkType: hard
+
+"moment-timezone@npm:^0.5.34":
+  version: 0.5.34
+  resolution: "moment-timezone@npm:0.5.34"
+  dependencies:
+    moment: ">= 2.9.0"
+  checksum: 26b2dc80648004ee29fdcf819d4aa153fadf71eb061a90386cf738214e388009ec189b9da39e7320ff81dd0d213c0b1958c15d69cdb660982246daf7d225a1d5
+  languageName: node
+  linkType: hard
+
+"moment@npm:>= 2.9.0, moment@npm:^2.29.4":
+  version: 2.29.4
+  resolution: "moment@npm:2.29.4"
+  checksum: 844c6f3ce42862ac9467c8ca4f5e48a00750078682cc5bda1bc0e50cc7ca88e2115a0f932d65a06e4a90e26cb78892be9b3ca3dd6546ca2c4d994cebb787fc2b
   languageName: node
   linkType: hard
 
@@ -21255,6 +21330,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"rrule@npm:^2.7.0":
+  version: 2.7.0
+  resolution: "rrule@npm:2.7.0"
+  dependencies:
+    tslib: ^1.10.0
+  checksum: d4ca1f0623d22fd5940ff757771328f892977c29b6f8e1b40bac95f04700a478118b6324b5e001749f5a6736ce3dd21ed41f62270a64eb79c9ef8704581c5b8f
+  languageName: node
+  linkType: hard
+
 "rsvp@npm:^4.8.4":
   version: 4.8.5
   resolution: "rsvp@npm:4.8.5"
@@ -23404,7 +23488,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^1.8.1, tslib@npm:^1.9.0, tslib@npm:^1.9.2":
+"tslib@npm:^1.10.0, tslib@npm:^1.8.1, tslib@npm:^1.9.0, tslib@npm:^1.9.2":
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
   checksum: 69ae09c49eea644bc5ebe1bca4fa4cc2c82b7b3e02f43b84bd891504edf66dbc6b2ec0eef31a957042de2269139e4acff911e6d186a258fb14069cd7f6febce2
@@ -24044,6 +24128,13 @@ __metadata:
   version: 3.1.0
   resolution: "uuid-browser@npm:3.1.0"
   checksum: bfb6bcc8cc75c1adf776370c4f86d00ee5682f7315c8bccb99938e53dafae189ef6a4dc125e67abd2a2cdfaad6020690fe4cb67dbd5b39f32d3ba75fb713d807
+  languageName: node
+  linkType: hard
+
+"uuid-random@npm:^1.3.2":
+  version: 1.3.2
+  resolution: "uuid-random@npm:1.3.2"
+  checksum: 14cb0fc8d52738b9f3b856df39e82f50650dad3dca254d3e62742148ba57292697c53d7bb171b84ad9d0f9d9231fd0f13d13eb65cb67b7d6c994f78d40e5e363
   languageName: node
   linkType: hard
 

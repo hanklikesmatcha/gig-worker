@@ -1,13 +1,35 @@
 import * as nodemailer from 'nodemailer'
+import { createInvitation, InvitationProps } from './calendar'
+import dayjs from 'dayjs'
 
-interface Options {
+interface SendEmailOptions {
+  senderEmail: string
+  senderName: string
   to: string | string[]
   subject: string
   text: string
   html: string
+  time: dayjs.Dayjs
+  location: string
 }
 
-export async function sendEmail({ to, subject, text, html }: Options) {
+export async function sendEmail({
+  senderEmail,
+  senderName,
+  to,
+  subject,
+  text,
+  html,
+  time,
+  location,
+}: SendEmailOptions) {
+  let inviteProps: InvitationProps = {
+    startTime: time.toDate(),
+    endTime: time.hour(1).toDate(),
+    description: text,
+    location: location,
+  }
+  const invite = createInvitation(inviteProps).toString()
   const transporter = nodemailer.createTransport({
     host: 'smtp-relay.sendinblue.com',
     port: 587,
@@ -19,12 +41,16 @@ export async function sendEmail({ to, subject, text, html }: Options) {
   })
 
   const info = await transporter.sendMail({
-    from: 'Szu Han" hank.likes.matcha@gmail.com',
+    from: `"${senderName}" ${senderEmail}`,
     to: Array.isArray(to) ? to : [to],
     subject,
     text,
     html,
+    icalEvent: {
+      filename: 'invitation.ics',
+      method: 'REQUEST',
+      content: Buffer.from(invite),
+    },
   })
-
   return info
 }

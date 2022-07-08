@@ -6,6 +6,7 @@ import type {
   AppointmentResolvers,
 } from 'types/graphql'
 import { createEmail } from '../emails/emails'
+import dayjs from 'dayjs'
 
 export const appointments: QueryResolvers['appointments'] = () => {
   return db.appointment.findMany()
@@ -19,12 +20,19 @@ export const appointment: QueryResolvers['appointment'] = ({ id }) => {
 
 export const createAppointment: MutationResolvers['createAppointment'] =
   async ({ input }) => {
-    const talent = await db.talent.findUnique({ where: { id: input.talentId } })
+    const talent = await db.talent.findUnique({
+      where: { id: input.talentId },
+    })
     const msg = {
-      to: talent.email,
+      senderEmail: talent.email,
+      senderName: talent.firstName,
+      to: input.attendees,
       subject: `Hi! You have booked a time with ${talent.firstName}`,
-      text: 'and easy to do anywhere, even with Node.js',
+      text: `${talent.firstName} ${talent.lastName}. Booking time - ${input.time}. Location - ${input.location}`,
       html: `<strong>With ${talent.firstName} ${talent.lastName}. Booking time - ${input.time}. Location - ${input.location}</strong>`,
+      time: dayjs(input.time),
+      location: talent.location,
+      attendees: input.attendees,
     }
     await sendEmail(msg)
     const appointment = db.appointment.create({

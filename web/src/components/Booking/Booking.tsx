@@ -14,6 +14,7 @@ const CREATE_APPOINTMENT_MUTATION = gql`
       status
       talentId
       time
+      attendees
     }
   }
 `
@@ -31,7 +32,6 @@ const Booking = (props) => {
   const currentTime = dayjs(new Date(), 'YYYY-MM-DDTHH:mm').format(
     'YYYY-MM-DDTHH:mm'
   )
-
   const [selectedTime, setSelectedTime] = useState(currentTime)
   const onSubmit = (data) => {
     setSelectedTime(data)
@@ -41,14 +41,13 @@ const Booking = (props) => {
         variables: {
           input: {
             talentId: props.talent.id,
-            location: 'N/A',
+            location: props.talent.location,
             status: 'new',
             time: dayjs(selectedTime, 'YYYY-MM-DDTHH:mm:ssZ[Z]'),
             attendees: [props.talent.email, supabase.auth.user().email],
           },
         },
       })
-      toast('Appointment Made! 🎉 ')
     }
   }
   return (
